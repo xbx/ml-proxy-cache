@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flasgger import Swagger
-from lib import item
+from lib import item, stats
 
 import logging
 
@@ -13,7 +13,7 @@ app = Flask(__name__)
 Swagger(app)
 
 
-@app.route('/items/<item_id>/')
+@app.route('/items/<item_id>')
 def items(item_id):
     """Endpoint returning the item information
     ---
@@ -35,6 +35,19 @@ def items(item_id):
           $ref: '#/definitions/Item'
     """
     result = item.get(item_id)
+
+    return jsonify(result)
+
+
+@app.route('/health')
+def health():
+    """Endpoint returning the current API stats for health information
+    ---
+    responses:
+      200:
+        description: The health information
+    """
+    result = stats.get()
 
     return jsonify(result)
 
