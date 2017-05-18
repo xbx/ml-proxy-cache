@@ -35,7 +35,8 @@ def get():
         )
         return {
             "avg_response_time": result['aggregations']['avg_response_time']['value'],
-            "avg_response_time_api_calls": result['aggregations']['avg_response_time_api_calls']['value']
+            "avg_response_time_api_calls": result['aggregations']['avg_response_time_api_calls']['value'],
+            "total_requests": result['hits']['total']
         }
     except NotFoundError as ex:
         logger.error('Error getting stats: %s' % str(ex))
