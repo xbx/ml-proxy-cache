@@ -22,3 +22,4 @@ TODO:
 - 8080 port as args - api
 - Debug=True/False as arg -api
 - api: redis config file
+- stats 500's

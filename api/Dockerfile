@@ -2,7 +2,8 @@ FROM python:3
 
 RUN pip install flasgger \
                 redis \
-                requests
+                requests \
+                elasticsearch
 
 RUN mkdir /api/
 WORKDIR /api/
