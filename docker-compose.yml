@@ -3,7 +3,11 @@ version: "3"
 services:
   api:
     build: ./api/
+    command: /wait-for-it.sh redis:6379 -- /entrypoint.sh
     ports:
       - 8080:8080
     volumes:
       - ./api/:/api/
+      - ./wait-for-it.sh:/wait-for-it.sh
+  redis:
+    image: redis:3

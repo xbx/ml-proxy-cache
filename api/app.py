@@ -1,5 +1,12 @@
 from flask import Flask, jsonify
 from flasgger import Swagger
+from lib import storage, ml_api
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+logging_handler = logging.StreamHandler()
+logger.addHandler(logging_handler)
 
 app = Flask(__name__)
 Swagger(app)
@@ -29,9 +36,18 @@ def items(item_id):
         'foo': 'bar'
     }
     if item_id == 'test':
-        result = test_result
+        return jsonify(test_result)
+
+    item = storage.get(item_id)
+    if item is None:
+        logger.debug('Miss!')
+        item = ml_api.get(item_id)
+        storage.store(item_id, item)
+        item = storage.get(item_id)
     else:
-        result = test_result
+        logger.debug('Hit!')
+
+    result = {'item': item}
 
     return jsonify(result)
 
